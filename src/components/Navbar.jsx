@@ -22,12 +22,30 @@ export default function Navbar() {
           />
           NewsApp
         </div>{" "}
-        <b>
-          <Link className="navbar-brand " to="/">
-            Home{" "}
-          </Link>
-        </b>
+        <div className="col-130">
+          <b>
+            <Link className="btn btn-block btn-dark me-3 " to="/">
+              Home{" "}
+            </Link>
+          </b>
+          <b>
+            <Link class="btn btn-block btn-dark me-3 " to="/drafts">
+              Drafts
+            </Link>{" "}
+          </b>
+          <b>
+            <Link class="btn btn-block btn-dark me-3 " to="/edition">
+              Edition
+            </Link>{" "}
+          </b>
+          <b>
+            <Link class="btn btn-block btn-dark me-3 " to="/published">
+              Published
+            </Link>{" "}
+          </b>
+        </div>
         <div>
+          <div className="col-9 ps-3"></div>
           {user && (
             <>
               <span className="pe-4">Signed is as {user.displayName}</span>

@@ -37,8 +37,10 @@ export default function Articles() {
             userId,
             likes,
             comments,
+            category,
           }) => (
             <div className="border mt-3 p-3 bg-light shadow" key={id}>
+              <br></br>
               <div className="row">
                 <div className="col-3">
                   <Link to={`/article/${id}`}>
@@ -68,7 +70,13 @@ export default function Articles() {
                   <h4 className="fs-4">{title}</h4>
                   <p> Published on: {createdAt.toDate().toDateString()}</p>
                   <h8>{description}</h8>
-
+                  <div>
+                    <br></br>
+                    <span className="badge bg-secondary">
+                      {" "}
+                      Status: {category}
+                    </span>
+                  </div>
                   <div className="d-flex flex-row-reverse">
                     {user && <LikeArticle id={id} likes={likes} />}
                     <div className="pe-2">

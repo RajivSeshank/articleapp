@@ -13,6 +13,7 @@ export default function AddArticle() {
     description: "",
     image: "",
     createdAt: Timestamp.now().toDate(),
+    category: "",
   });
 
   const [progress, setProgress] = useState(0);
@@ -54,6 +55,7 @@ export default function AddArticle() {
           title: "",
           description: "",
           image: "",
+          category: "",
         });
 
         getDownloadURL(uploadImage.snapshot.ref).then((url) => {
@@ -67,6 +69,7 @@ export default function AddArticle() {
             userId: user.uid,
             likes: [],
             comments: [],
+            category: formData.category,
           })
             .then(() => {
               toast("Article added successfully", { type: "success" });
@@ -125,20 +128,26 @@ export default function AddArticle() {
             className="form-control"
             onChange={(e) => handleImageChange(e)}
           />
-          <label htmlFor="">Category: </label> <br></br>
-          {/* <input
-            type="text"
+          <div className="form-group">
+            <label htmlFor="">Category</label>
+            <input
+              type="text"
+              name="category"
+              className="form-control"
+              value={formData.category}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          {/* <select
             name="Category"
-            className="form-control"
-            value={formData.category}
-            // onChange={(e) => handleChange(e)}
-          /> */}
-          <select name="Category" id="category">
+            id="category"
+            onChange={(e) => handleChange(e)}
+          >
             {" "}
             <option value="Draft">Draft</option>
             <option value="Edition">Edition</option>
             <option value="Published">Published</option>
-          </select>
+          </select> */}
           {progress === 0 ? null : (
             <div className="progress">
               <div
@@ -153,7 +162,7 @@ export default function AddArticle() {
             className="form-control btn btn-block btn-dark mt-2"
             onClick={handlePublish}
           >
-            Publish
+            Submit
           </button>
         </>
       )}

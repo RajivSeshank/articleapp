@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Article from "./components/Article";
+import Drafts from "./components/Drafts";
+import Edition from "./components/Edition";
+import Published from "./components/Published";
 function App() {
   return (
     <div className="container">
@@ -13,6 +16,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/signin" element={<Login />} />
           <Route path="/article/:id" element={<Article />} />
+          <Route path="/drafts" element={<Drafts />} />
+          <Route path="/edition" element={<Edition />} />
+          <Route path="/published" element={<Published />} />
           <Route
             path="/"
             element={
