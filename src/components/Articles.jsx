@@ -39,7 +39,10 @@ export default function Articles() {
             comments,
             category,
           }) => (
-            <div className="border mt-3 p-3 bg-light shadow" key={id}>
+            <div
+              className="border mt-3 p-3 bg-light rounded mb-0 shadow"
+              key={id}
+            >
               <br></br>
               <div className="row">
                 <div className="col-3">

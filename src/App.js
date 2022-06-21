@@ -8,6 +8,7 @@ import Article from "./components/Article";
 import Drafts from "./components/Drafts";
 import Edition from "./components/Edition";
 import Published from "./components/Published";
+import Edit from "./components/Edit";
 function App() {
   return (
     <div className="container">
@@ -19,6 +20,7 @@ function App() {
           <Route path="/drafts" element={<Drafts />} />
           <Route path="/edition" element={<Edition />} />
           <Route path="/published" element={<Published />} />
+          <Route path="/edit/:id" element={<Edit />} />
           <Route
             path="/"
             element={

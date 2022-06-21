@@ -6,15 +6,15 @@ import { auth, db } from "../firebaseConfig";
 import LikeArticle from "./LikeArticle";
 import Comment from "./Comment";
 import { Link } from "react-router-dom";
-import slugify from "react-slugify";
+import { toast } from "react-toastify";
+
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default function Article() {
   const { id } = useParams();
   const [article, setArticle] = useState(null);
   const [user] = useAuthState(auth);
-  const [formData, setFormData] = useState({
-    category: "",
-  });
 
   useEffect(() => {
     const docRef = doc(db, "articles", id);
@@ -27,7 +27,7 @@ export default function Article() {
       <br></br>
       <br></br>
       <div
-        className="container border bg-light rounded mb-0 shadow p-4"
+        className="container border bg-light rounded mb shadow p-4"
         style={{ marginTop: 70 }}
       >
         {article && (
@@ -41,31 +41,27 @@ export default function Article() {
                 />
               </div>
               <div className="col-9 mt-3">
-                {" "}
                 <h2>{article.title}</h2>
-                <Link
-                  className="btn btn-block btn-dark sm me-3 "
-                  to={`/edit/${id}`}
-                >
-                  Edit{" "}
-                </Link>
+
                 {/* <FontAwesomeIcon icon="fa-solid fa-pen" /> */}
-                <div>{slugify(article.title)}</div>
                 <h5>Author: {article.createdBy}</h5>
                 <div>
                   {" "}
                   Published on: {article.createdAt.toDate().toDateString()}
                 </div>
                 <hr />
-                <h4>{article.description}</h4>
-                <div className="d-flex flex-row-reverse">
-                  {user && <LikeArticle id={id} likes={article.likes} />}
-                  <div className="pe-2">
-                    <p>{article.likes.length}</p>
-                  </div>
+
+                <div className="col-11 py-4">
+                  <CKEditor
+                    editor={ClassicEditor}
+                    data={article.description}
+                  ></CKEditor>
                 </div>
-                {/* comment  */}
-                <Comment id={article.id} />
+
+                <Link className="btn btn-block btn-dark sm my-4 " to="/">
+                  Submit{" "}
+                </Link>
+                <br></br>
               </div>
             </div>
           </div>

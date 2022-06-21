@@ -5,6 +5,8 @@ import { storage, db, auth } from "./../firebaseConfig";
 import { toast } from "react-toastify";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default function AddArticle() {
   const [user] = useAuthState(auth);
@@ -27,7 +29,12 @@ export default function AddArticle() {
   };
 
   const handlePublish = () => {
-    if (!formData.title || !formData.description || !formData.image) {
+    if (
+      !formData.title ||
+      !formData.description ||
+      !formData.image ||
+      !formData.category
+    ) {
       alert("Please fill all the fields");
       return;
     }
@@ -113,12 +120,21 @@ export default function AddArticle() {
           </div>
           {/* description */}
           <label htmlFor="">Description</label>
-          <textarea
+          <div>
+            <CKEditor
+              editor={ClassicEditor}
+              data={formData.description}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            ></CKEditor>
+          </div>
+          {/* <textarea
             name="description"
             className="form-control"
-            value={formData.description}
+            data={formData.description}
             onChange={(e) => handleChange(e)}
-          />
+          /> */}
           {/* image */}
           <label htmlFor="">Image</label>
           <input
@@ -128,26 +144,27 @@ export default function AddArticle() {
             className="form-control"
             onChange={(e) => handleImageChange(e)}
           />
-          <div className="form-group">
-            <label htmlFor="">Category</label>
-            <input
+          <div className="form-group p-2">
+            <label htmlFor="">Category </label>
+            {/* <input
               type="text"
               name="category"
               className="form-control"
               value={formData.category}
               onChange={(e) => handleChange(e)}
-            />
+            /> */}
+            <select
+              className="form-control ml-3"
+              name="category"
+              type="text"
+              onChange={(e) => handleChange(e)}
+            >
+              {" "}
+              <option value="Draft">Draft</option>
+              <option value="Edition">Edition</option>
+              <option value="Published">Published</option>
+            </select>
           </div>
-          {/* <select
-            name="Category"
-            id="category"
-            onChange={(e) => handleChange(e)}
-          >
-            {" "}
-            <option value="Draft">Draft</option>
-            <option value="Edition">Edition</option>
-            <option value="Published">Published</option>
-          </select> */}
           {progress === 0 ? null : (
             <div className="progress">
               <div
