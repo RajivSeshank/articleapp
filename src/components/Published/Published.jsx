@@ -1,9 +1,9 @@
 import { collection, onSnapshot, where, query } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
-import { auth, db } from "../firebaseConfig";
-import DeleteArticle from "./DeleteArticle";
+import { auth, db } from "../../firebaseConfig";
+import DeleteArticle from "../DeleteArticle";
 import { useAuthState } from "react-firebase-hooks/auth";
-import LikeArticle from "./LikeArticle";
+import LikeArticle from "../LikeArticle";
 import { Link } from "react-router-dom";
 
 export default function Articles() {
@@ -43,9 +43,11 @@ export default function Articles() {
               <div>
                 <br></br>
                 <br></br>
-                <br></br>
 
-                <div className="border mt-3 p-3 bg-light shadow" key={id}>
+                <div
+                  className="row justify-content-center border mt-5 p-4 bg-light shadow"
+                  key={id}
+                >
                   <div className="col-6 ps-3"></div>
 
                   <div className="row">
@@ -81,7 +83,7 @@ export default function Articles() {
                         <br></br>
                         <span className="badge bg-secondary">
                           {" "}
-                          Category: {category}
+                          Status: {category}
                         </span>
                       </div>
                       <div className="d-flex flex-row-reverse">

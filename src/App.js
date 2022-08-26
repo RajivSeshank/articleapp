@@ -1,13 +1,14 @@
-import Articles from "./components/Articles";
-import AddArticle from "./components/AddArticle";
-import Navbar from "./components/Navbar";
+import React from "react";
+import Articles from "./components/Articles/Articles";
+import AddArticle from "./components/AddArticle/AddArticle";
+import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-import Article from "./components/Article";
-import Drafts from "./components/Drafts";
-import Edition from "./components/Edition";
-import Published from "./components/Published";
+import Article from "./components/ArticleDetails/Article";
+import Drafts from "./components/Drafts/Drafts";
+import Edition from "./components/Edition/Edition";
+import Published from "./components/Published/Published";
 import Edit from "./components/Edit";
 function App() {
   return (

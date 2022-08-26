@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Timestamp, collection, addDoc } from "firebase/firestore";
+import { Timestamp, collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage, db, auth } from "./../firebaseConfig";
+import { storage, db, auth } from "../../firebaseConfig";
 import { toast } from "react-toastify";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import slugify from "react-slugify";
 
 export default function AddArticle() {
   const [user] = useAuthState(auth);
@@ -23,6 +24,10 @@ export default function AddArticle() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  // const handleSlugChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: slugify(e.target.title) });
+  // };
 
   const handleImageChange = (e) => {
     setFormData({ ...formData, image: e.target.files[0] });
@@ -66,8 +71,8 @@ export default function AddArticle() {
         });
 
         getDownloadURL(uploadImage.snapshot.ref).then((url) => {
-          const articleRef = collection(db, "articles");
-          addDoc(articleRef, {
+          const articleRef = doc(db, "articles", slugify(formData.title));
+          setDoc(articleRef, {
             title: formData.title,
             description: formData.description,
             imageUrl: url,
@@ -77,6 +82,7 @@ export default function AddArticle() {
             likes: [],
             comments: [],
             category: formData.category,
+            // slug: slugify(formData.title),
           })
             .then(() => {
               toast("Article added successfully", { type: "success" });
@@ -93,13 +99,15 @@ export default function AddArticle() {
   return (
     <div
       className="border p-3 mt-3 bg-light shadow"
-      style={{ position: "fixed" }}
+      style={{ position: "fixed", paddding: 10, width: 400 }}
     >
       {!user ? (
         <>
-          <h2>
-            <Link to="/signin">Login to create article</Link>
-          </h2>
+          <h4>
+            <Link to="/signin" className="btn btn-block btn-dark mt-2">
+              Login to Editor Portal
+            </Link>
+          </h4>
           Don't have an account? <Link to="/register">Signup</Link>
         </>
       ) : (
@@ -108,7 +116,8 @@ export default function AddArticle() {
             {" "}
             Create an article
           </span>
-          <div className="form-group">
+
+          <div className="form-group" style={{ width: 360 }}>
             <label htmlFor="">Title</label>
             <input
               type="text"
@@ -117,64 +126,72 @@ export default function AddArticle() {
               value={formData.title}
               onChange={(e) => handleChange(e)}
             />
-          </div>
-          {/* description */}
-          <label htmlFor="">Description</label>
-          <div>
-            <CKEditor
+
+            <label htmlFor="">Url: </label>
+            <div className="form-control" style={{ width: 360 }}>
+              {" "}
+              article/ {slugify(formData.title)}
+            </div>
+
+            {/* description */}
+            <label htmlFor="">Description</label>
+            <div>
+              {/* <CKEditor
               editor={ClassicEditor}
               data={formData.description}
               onChange={(e) => {
                 handleChange(e);
               }}
-            ></CKEditor>
-          </div>
-          {/* <textarea
-            name="description"
-            className="form-control"
-            data={formData.description}
-            onChange={(e) => handleChange(e)}
-          /> */}
-          {/* image */}
-          <label htmlFor="">Image</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            className="form-control"
-            onChange={(e) => handleImageChange(e)}
-          />
-          <div className="form-group p-2">
-            <label htmlFor="">Category </label>
-            {/* <input
+            ></CKEditor> */}
+            </div>
+            <textarea
+              name="description"
+              className="form-control"
+              data={formData.description}
+              onChange={(e) => handleChange(e)}
+            />
+            {/* image */}
+            <label htmlFor="">Image</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              className="form-control"
+              onChange={(e) => handleImageChange(e)}
+            />
+            <div className="form-group p-2">
+              <label htmlFor="">Status: </label>
+              {/* <input
               type="text"
               name="category"
               className="form-control"
               value={formData.category}
               onChange={(e) => handleChange(e)}
             /> */}
-            <select
-              className="form-control ml-3"
-              name="category"
-              type="text"
-              onChange={(e) => handleChange(e)}
-            >
-              {" "}
-              <option value="Draft">Draft</option>
-              <option value="Edition">Edition</option>
-              <option value="Published">Published</option>
-            </select>
-          </div>
-          {progress === 0 ? null : (
-            <div className="progress">
-              <div
-                className="progress-bar progress-bar-striped mt-2"
-                style={{ width: `${progress}%` }}
+              <select
+                className="form-control ml-3"
+                name="category"
+                type="text"
+                onChange={(e) => handleChange(e)}
               >
-                {`uploading image ${progress}%`}
-              </div>
+                {" "}
+                <option>Select an option</option>
+                <option value="Draft">Draft</option>
+                <option value="Edition">Edition</option>
+                <option value="Published">Published</option>
+              </select>
             </div>
-          )}
+            {progress === 0 ? null : (
+              <div className="progress">
+                <div
+                  className="progress-bar progress-bar-striped mt-2"
+                  style={{ width: `${progress}%` }}
+                >
+                  {`uploading image ${progress}%`}
+                </div>
+              </div>
+            )}
+          </div>
           <button
             className="form-control btn btn-block btn-dark mt-2"
             onClick={handlePublish}

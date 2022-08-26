@@ -8,19 +8,23 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSignup = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       updateProfile(auth.currentUser, { displayName: name });
       navigate("/");
+      toast("Login created successfully", { type: "success" }); //add succesfull login prompt
     } catch (error) {
       toast(error.code, { type: "error" });
     }
   };
+
   return (
     <div className="border p-3 bg-light " style={{ marginTop: 70 }}>
+      {" "}
+      //dont useinline css
       <h1>Register</h1>
       <div className="form-group">
         <label>Name</label>
@@ -44,7 +48,6 @@ export default function Register() {
           }}
         />
       </div>
-
       <div className="form-group">
         <label>Password</label>
         <input

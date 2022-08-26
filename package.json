@@ -1,4 +1,5 @@
 {
+  "homepage": "http://RajivSeshank.github.io/articleapp",
   "name": "my-articles",
   "version": "0.1.0",
   "private": true,
@@ -11,6 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.8.3",
+    "eslint": "^8.18.0",
     "firebase": "^9.8.3",
     "font-awesome": "^4.7.0",
     "react": "^17.0.2",
@@ -24,10 +26,13 @@
     "web-vitals": "^2.1.2"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint"
   },
   "eslintConfig": {
     "extends": [
@@ -46,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }
